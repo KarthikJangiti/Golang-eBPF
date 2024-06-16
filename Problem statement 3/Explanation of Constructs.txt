@@ -1,0 +1,13 @@
+Explanation of Constructs
+make(chan func(), 10)
+Construct: make(chan func(), 10)
+Explanation: This creates a buffered channel that can hold up to 10 function values (func() types).
+Use-Cases: Buffered channels are useful when you want to limit the number of values that can be sent to a channel without a
+corresponding receiver ready to receive them. This can be used to control backpressure in concurrent systems, 
+ensuring that the system does not get overwhelmed by too many tasks at once.
+for i := 0; i < 4; i++ { ... }
+Construct: for i := 0; i < 4; i++ { ... }
+Explanation: This loop runs 4 iterations, and in each iteration, it launches a new goroutine that will consume functions from the cnp channel and execute them.
+Use-Cases: This construct is often used to create a pool of workers (goroutines) that can handle tasks concurrently. 
+This can be useful in scenarios where you have multiple tasks to process in parallel, such as handling web requests, 
+processing jobs, or performing computations.

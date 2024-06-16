@@ -1,0 +1,47 @@
+Why "HERE1" Is Not Getting Printed
+Reason: The function that prints "HERE1" is sent to the channel, but there are several reasons why it might not get executed:
+The main function terminates almost immediately after printing "Hello". Since main exits, the program also exits, 
+and the goroutines may not have enough time to pick up the task from the channel and execute it.
+There's no synchronization to ensure that the goroutines have time to process the function from the channel before the program exits.
+The goroutines are started but may not have had a chance to start reading from the channel before main finishes.
+
+
+How to Ensure "HERE1" Is Printed
+To ensure "HERE1" is printed, you need to give the goroutines enough time to execute the function from the channel before the main function exits. 
+One way to achieve this is by using synchronization techniques such as sync.WaitGroup
+
+Code:
+
+package main
+
+import (
+    "fmt"
+    "sync"
+)
+
+func main() {
+    var wg sync.WaitGroup
+    wg.Add(1) // Add a counter for the function to be executed
+
+    cnp := make(chan func(), 10)
+    for i := 0; i < 4; i++ {
+        go func() {
+            for f := range cnp {
+                f()
+            }
+        }()
+    }
+
+    cnp <- func() {
+        fmt.Println("HERE1")
+        wg.Done() // Decrement the counter when the function is done
+    }
+
+    fmt.Println("Hello")
+    wg.Wait() // Wait until all functions have finished
+}
+
+
+In this example, sync.WaitGroup is used to wait for the function execution to complete before allowing main to exit.
+
+This ensures that "HERE1" is printed by synchronizing the main function with the execution of the function sent to the channel.

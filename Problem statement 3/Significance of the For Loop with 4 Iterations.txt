@@ -1,0 +1,4 @@
+Significance of the For Loop with 4 Iterations
+Purpose: The loop creates 4 worker goroutines. Each goroutine reads from the channel and executes the functions sent to it.
+Significance: By having multiple worker goroutines, the code can handle multiple tasks concurrently, 
+improving throughput and responsiveness in a concurrent system. Each goroutine operates independently, allowing tasks to be processed in parallel.

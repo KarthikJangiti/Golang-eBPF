@@ -1,0 +1,5 @@
+Significance of make(chan func(), 10)
+Purpose: This line creates a channel that can buffer up to 10 function calls.
+Significance: Buffered channels allow sending tasks to the channel without needing an immediate receiver. 
+This helps in decoupling the sender and receiver, providing a way to accumulate tasks that can be processed later. 
+The buffer size of 10 means up to 10 functions can be queued in the channel before the sender is blocked.
